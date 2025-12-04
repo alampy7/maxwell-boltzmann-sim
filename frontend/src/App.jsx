@@ -3,6 +3,8 @@ import MaxwellChart from "./MaxwellChart";
 import ParticleAnimation from "./PartAnim";
 import './App.css';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+
 function App() {
   const [T, setT] = useState(1.0);
   const [N, setN] = useState(5000);
@@ -10,12 +12,14 @@ function App() {
   const [bins, setBins] = useState(40);
 
   const [data, setData] = useState(null);
-  const [status, setStatus] = useState("idle"); // idle | loading | success | error
+  const [status, setStatus] = useState("idle");
   const [error, setError] = useState(null);
 
   const fetchSimulation = async (Tvalue, Nvalue, gasValue, binsValue) => {
     setStatus("loading");
     setError(null);
+
+    const url = '${API_BASE_URL}/simulate?${params.toString()}';
 
     try {
       const params = new URLSearchParams({
