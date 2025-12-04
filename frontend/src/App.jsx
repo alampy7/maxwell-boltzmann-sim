@@ -18,9 +18,6 @@ function App() {
   const fetchSimulation = async (Tvalue, Nvalue, gasValue, binsValue) => {
     setStatus("loading");
     setError(null);
-
-    const url = '${API_BASE_URL}/simulate?${params.toString()}';
-
     try {
       const params = new URLSearchParams({
         T: String(Tvalue),
@@ -29,10 +26,11 @@ function App() {
         bins: String(binsValue),
       });
 
-      const url = 'https://maxwell-boltzmann-sim.onrender.com/simulate?${params.toString()}';
+      const url = 'https://maxwell-boltzmann-sim.onrender.com/simulate?'+ params.toString();
       console.log("Llamando a:", url); //Para verificar en la consola
 
       const res = await fetch(url);
+      console.log('Mostrando el res,',res);
       if (!res.ok) {
         throw new Error('Error HTTP ${res.status}');
       }
@@ -64,7 +62,7 @@ function App() {
     <div
       style={{
         fontFamily: "system-ui, sans-serif",
-        maxWidth: "900px",
+        // maxWidth: "900px",
         margin: "0 auto",
         padding: "1.5rem",
         textAlign: "center",
@@ -156,8 +154,6 @@ function App() {
           </p>
 
           <MaxwellChart data={data} />
-
-          <ParticleAnimation velocities={data.velocities}/>
         </div>
       )}
     </div>
