@@ -26,9 +26,9 @@ function App() {
         bins: String(binsValue),
       });
 
-      const url = 'https://maxwell-boltzmann-sim.onrender.com/simulate?'+ params.toString();
       //const url = 'http://127.0.0.1:8000/simulate?' + params.toString();
-      //const url = API_BASE_URL.toString() + '/simulate?' + params.toString();
+      //const url = 'https://maxwell-boltzmann-sim.onrender.com/simulate?'+ params.toString();
+      const url = API_BASE_URL.toString() + '/simulate?' + params.toString();
       console.log("Llamando a:", url); //Para verificar en la consola
 
       const res = await fetch(url);
