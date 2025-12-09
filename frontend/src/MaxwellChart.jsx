@@ -24,22 +24,30 @@ export default function MaxwellChart({ data }) {
 
     const { bin_centers, hist_values, v_teo, f_teo} = data;
 
+    console.log('bin_center:', bin_centers.slice(0,5));
+    console.log('f_teo:', f_teo.slice(0,5));
+
     const chartData = {
         labels: bin_centers.map((v) => v.toFixed(3)),
         datasets: [
             {
-                label: 'Histograma (empírico)',
+                label: 'Histograma (Monte Carlo)',
                 data: hist_values,
                 borderColor:'rgba(0, 153, 255, 1)',
                 backgroundColor: 'rgba(0, 153, 255, 0.3)',
                 fill: true,
             },
             {
-                label: 'Distribución teórica',
-                data: f_teo.slice(0, bin_centers.length),
+                label: 'Distribución Maxwell-Boltzmann',
+                data: bin_centers.map((v,i) => ({
+                    x: v,
+                    y: f_teo[i]
+                })),
                 borderColor: 'rgba(255, 99, 132, 1)',
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 fill: false,
+                tension: 0.4,
+                parsing: false,
             }
         ],
     };
@@ -47,8 +55,13 @@ export default function MaxwellChart({ data }) {
     const options = {
         responsive: true,
         scales: {
+            x :{
+                type: 'linear',
+                title: { display: true, text: 'Velocidad' },
+            },
             y: {
                 beginAtZero: true,
+                title: { display: true, text: 'f(v)' },
             },
         },
     };

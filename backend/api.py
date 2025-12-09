@@ -55,20 +55,16 @@ def simulate(T:float = 1.0, N: int = 10000, gas:str ='Ar', bins: int = 50):
     gas_clave = gas if gas in gases else 'Ar'
     m = gases[gas_clave]
     
-    #Se generan las velocidades por Monte Carlo
+    #Se generan las velocidades usando la masa del gas seleccionado
     vels = velocidades(T, N, masa=m)
-    
-    #Ahora tomamos las 200 velocidades menores para animar
-    num_anim = min(200, len(vels))
-    vels_anim = vels[:num_anim]
     
     #Se hace un histograma empírico
     counts, edges = np.histogram(vels, bins=bins, density=True)
     bin_centers = 0.5 * (edges[:-1] + edges[1:])
     
     #Curva teórica
-    v_teo = np.linspace(0, float(vels.max()), 200)
-    f_teo = distribucion_MB(vels, T, masa=m)
+    v_teo = np.linspace(edges[0], edges[-1], len(bin_centers))
+    f_teo = distribucion_MB(v_teo, T, masa=m)
     
     #Se convierten los datos para que FastAPI los serialice a JSON
     return {
@@ -81,5 +77,4 @@ def simulate(T:float = 1.0, N: int = 10000, gas:str ='Ar', bins: int = 50):
         'hist_values': counts.tolist(),
         'v_teo': v_teo.tolist(),
         'f_teo': f_teo.tolist(),
-        'velocities': vels_anim.tolist(),
     }

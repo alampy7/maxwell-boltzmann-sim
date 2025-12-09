@@ -1,7 +1,7 @@
 '''Para este proyecto se procuró usar PEP8 para una mejor comprensión del
 mismo: https://peps.python.org/pep-0008/'''
 
-#primero, se importan las librerías necesarias
+#Primero, se importan las librerías necesarias
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -15,14 +15,14 @@ def main():
      #Se crea el arreglo de velocidades
      vels = velocidades(T, N)
      
-     #Se hace u histograma empírico
+     #Se hace un histograma empírico
      num_bins = 50
      counts, bin_edges = np.histogram(vels, bins=num_bins, density=True)
      bin_centers = 0.5*(bin_edges[:-1] + bin_edges[1:])
      
      #Curva teórica
-     v_teo = np.linspace(0, vels.max(), 200)
-     f_teo = distribucion_MB(v_teo, T)
+     v_teo = np.linspace(0, vels.max(), len(bin_centers))
+     f_teo = distribucion_MB(v_teo, T) #masa=1.0
      
      #Se grafican los datos
      plt.figure()
@@ -34,7 +34,7 @@ def main():
          label='Empírico (Monte Carlo)')
      plt.plot(v_teo, f_teo, label='Teórico Maxwell-Boltzmann')
      plt.xlabel('Rapidez (unidades arbitrarias)')
-     plt.ylabel('Densidad de probabilidad)')
+     plt.ylabel('Densidad de probabilidad')
      plt.title(f'Distribución de Maxwell-Boltzmann (T = {T} K, N = {N})')
      plt.legend()
      plt.grid(True)
