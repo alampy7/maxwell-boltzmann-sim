@@ -3,7 +3,7 @@ import MaxwellChart from "./MaxwellChart";
 import ParticleAnimation from "./PartAnim";
 import './App.css';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://maxwell-boltzmann-sim.onrender.com/simulate?';
 
 function App() {
   const [T, setT] = useState(1.0);
