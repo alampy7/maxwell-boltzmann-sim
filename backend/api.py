@@ -68,7 +68,7 @@ def simulate(T:float = 1.0, N: int = 10000, gas:str ='Ar', bins: int = 50):
     
     #Curva teórica
     v_teo = np.linspace(0, float(vels.max()), 200)
-    f_teo = distribucion_MB(v_teo, T, masa=m)
+    f_teo = distribucion_MB(vels, T, masa=m)
     
     #Se convierten los datos para que FastAPI los serialice a JSON
     return {
