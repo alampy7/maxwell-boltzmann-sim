@@ -27,10 +27,11 @@ function App() {
       });
 
       const url = 'https://maxwell-boltzmann-sim.onrender.com/simulate?'+ params.toString();
+      //const url = 'http://127.0.0.1:8000/simulate?' + params.toString();
       console.log("Llamando a:", url); //Para verificar en la consola
 
       const res = await fetch(url);
-      console.log('Mostrando el res,',res);
+      console.log('Mostrando el res',res);
       if (!res.ok) {
         throw new Error('Error HTTP ${res.status}');
       }
