@@ -4,15 +4,18 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import numpy as np
 
+#El CORS es para que fastApi trabaje bien
+
 from mb_sim import distribucion_MB, velocidades
 
+#Se construye el encabezado de la API
 app = FastAPI(
     title='Maxwell-Bolztmann API',
     description='API sencilla',
     version='0.1.0'
 )
 
-#CORS es para que luego React haga peticiones sin pex
+#CORS también  es para que luego React haga peticiones sin pex
 app.add_middleware(
     CORSMiddleware,
     allow_origins=['*'],
@@ -21,7 +24,7 @@ app.add_middleware(
     allow_headers=['*']
 )
 
-#@app.get sirve para que sea fácil llamar funciones desde el navegador
+#@app.get sirve para llamar funciones desde el navegador
 @app.get('/')
 def read_root():
     return {'message':'API del simulador funcionando :)'}
@@ -37,6 +40,7 @@ gases = {
     'O2':32.0
 }
 
+#Se define el comando de simular para la app web
 @app.get('/simulate')
 def simulate(T:float = 1.0, N: int = 10000, gas:str ='Ar', bins: int = 50):
     '''Simula la distribución de velocidades para una temperatura T y N
@@ -62,7 +66,7 @@ def simulate(T:float = 1.0, N: int = 10000, gas:str ='Ar', bins: int = 50):
     counts, edges = np.histogram(vels, bins=bins, density=True)
     bin_centers = 0.5 * (edges[:-1] + edges[1:])
     
-    #Curva teórica
+    #Curva teórica de acuerdo a los bins calculados
     v_teo = np.linspace(edges[0], edges[-1], len(bin_centers))
     f_teo = distribucion_MB(v_teo, T, masa=m)
     

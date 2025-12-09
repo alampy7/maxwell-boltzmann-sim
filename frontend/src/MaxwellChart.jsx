@@ -19,14 +19,13 @@ ChartJS.register(
     Legend,
 );
 
+//Se recolectan los datos enviados por la API
 export default function MaxwellChart({ data }) {
     if (!data) return null;
 
     const { bin_centers, hist_values, v_teo, f_teo} = data;
 
-    console.log('bin_center:', bin_centers.slice(0,5));
-    console.log('f_teo:', f_teo.slice(0,5));
-
+    //Se toman los datos y se grafican
     const chartData = {
         labels: bin_centers.map((v) => v.toFixed(3)),
         datasets: [
@@ -52,6 +51,7 @@ export default function MaxwellChart({ data }) {
         ],
     };
 
+    //Se modifica el formato de la gráfica
     const options = {
         responsive: true,
         scales: {
@@ -66,6 +66,7 @@ export default function MaxwellChart({ data }) {
         },
     };
 
+    //Se envía al front
     return (
         <div style={{marginTop: '2rem'}}>
             <Line data={chartData} options={options} />

@@ -1,20 +1,24 @@
 import { useState, useEffect } from "react";
 import MaxwellChart from "./MaxwellChart";
-//import ParticleAnimation from "./PartAnim";
 import './App.css';
 
+//Se define el URL desde donde React hará peticiones al back
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+//Si falla el primero, intenta conectar localmente
 
 function App() {
+  //Se inicializan los datos por default
   const [T, setT] = useState(1.0);
   const [N, setN] = useState(5000);
   const [gas, setGas] = useState('Ar');
   const [bins, setBins] = useState(40);
 
+  //Se recolectan los datos y se definen los estados y errores iniciales
   const [data, setData] = useState(null);
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState(null);
 
+  //Se hace la petici+on a la API
   const fetchSimulation = async (Tvalue, Nvalue, gasValue, binsValue) => {
     setStatus("loading");
     setError(null);
@@ -26,17 +30,18 @@ function App() {
         bins: String(binsValue),
       });
 
-      //const url = 'http://127.0.0.1:8000/simulate?' + params.toString();
-      //const url = 'https://maxwell-boltzmann-sim.onrender.com/simulate?'+ params.toString();
+      //Se hace la petición al server donde está el back
       const url = API_BASE_URL.toString() + '/simulate?' + params.toString();
       console.log("Llamando a:", url); //Para verificar en la consola
 
+      //Se crea la conexión. Si falla, se manda mensaje de error
       const res = await fetch(url);
       console.log('Mostrando el res',res);
       if (!res.ok) {
         throw new Error('Error HTTP ${res.status}');
       }
 
+      //Se conecta con el JSON serializado por la API
       const json = await res.json();
       if (json.error) {
         throw new Error(json.error);
@@ -60,11 +65,11 @@ function App() {
     fetchSimulation(T, N, gas, bins);
   };
 
+  //Todo lo que sigue es meramente React construyendo el front de la app
   return (
     <div
       style={{
         fontFamily: "system-ui, sans-serif",
-        // maxWidth: "900px",
         margin: "0 auto",
         padding: "1.5rem",
         textAlign: "center",

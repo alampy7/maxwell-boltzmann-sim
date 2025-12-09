@@ -16,14 +16,13 @@ def velocidades(temp:float, num_part:int, masa:float = 1.0):
     if masa <= 0:
         raise ValueError('Recuerde que m > 0. Revise sus parámetros.')
     
-    #Consideramos sigma^2 = k_B * T / m, con k_B = 1
+    #Consideramos (velocidad más probable) sigma^2 = k_B * T / m, con k_B = 1.
     sigma = np.sqrt(temp/masa)
        
-    #Se generan las componentes de velocidad
+    #Se normalizan las velocidades para trabajar con rapideces
     vel_comps = np.random.normal(loc=0.0, scale=sigma, size=(num_part, 3))
     
-        
-    #Obtenemos la rapidez del vector velocidad y se returna directamente
+    #Obtenemos la normalización del vector velocidad en una dimensión
     return np.linalg.norm(vel_comps, axis=1)
     
     
