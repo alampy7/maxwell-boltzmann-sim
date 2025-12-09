@@ -25,7 +25,7 @@ export default function MaxwellChart({ data }) {
     const { bin_centers, hist_values, v_teo, f_teo} = data;
 
     const chartData = {
-        labels: bin_centers.map((v) => v_teo.toFixed(3)),
+        labels: bin_centers.map((v) => v.toFixed(3)),
         datasets: [
             {
                 label: 'Histograma (empírico)',
